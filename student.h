@@ -1,10 +1,10 @@
 #ifndef STUDENT_H_INCLUDED
 #define STUDENT_H_INCLUDED
 
-typedef struct strudent {
+typedef struct student {
     unsigned int classID;
     unsigned int ID;
     char * name;
-}strudent;
+}student;
 
 #endif // STUDENT_H_INCLUDED
