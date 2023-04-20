@@ -3,7 +3,7 @@
 #include "student.h"
 
 typedef struct Node{
-    struct strudent entry;
+    struct strudent *student;
     struct Node *next;
     struct Node *prv;
 } node;
