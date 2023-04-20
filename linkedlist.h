@@ -13,7 +13,9 @@ typedef struct StudentList{
     node *head;
     node *tail;
     node *current;
+    int size;
 } StudentList;
 
+int append(StudentList *ls, student *s);
 
 #endif // LINKEDLIST_H_INCLUDED

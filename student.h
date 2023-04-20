@@ -4,7 +4,7 @@
 typedef struct student {
     unsigned int classID;
     unsigned int ID;
-    char * name;
+    char  name[100];
 }student;
 
 #endif // STUDENT_H_INCLUDED
