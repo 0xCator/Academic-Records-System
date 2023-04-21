@@ -17,7 +17,7 @@ int append(StudentList *ls, student *s){
 
     // if list empty add node to end of the list
     if(ls->head == NULL){
-        new->student->ID = 1;
+        new->student->ID = new->student->classID*1000 + 1;
         new->next = NULL;
         new->prv = NULL;
         ls->head = new;
@@ -138,7 +138,7 @@ int append(StudentList *ls, student *s){
                     // if the class pos at the beggining of the list 
                     if(ls->current->prv == NULL 
                             && ls->current->student->classID > s->classID){
-                        new->student->ID = 1;
+                        new->student->ID = new->student->classID*1000 + 1;
                         new->prv = NULL;
                         new->next = ls->head;
                         ls->head= new;
@@ -149,7 +149,7 @@ int append(StudentList *ls, student *s){
                     if(ls->current->prv->student->classID < ls->current->student->classID && 
                             ls->current->prv->student->classID < s->classID){
 
-                        new->student->ID = 1;
+                        new->student->ID = new->student->classID*1000 + 1;
                         new->next = ls->current;
                         new->prv = ls->current->prv;
                         ls->current->prv->next = new;
