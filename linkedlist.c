@@ -109,7 +109,7 @@ int append(StudentList *ls, student *s){
                     if(ls->current->student->classID == s->classID &&
                             ls->current->next == NULL){
 
-                        new->student->ID = 1;
+                        new->student->ID = new->student->classID*1000 + 1;
                         new->next = NULL;
                         new->prv = ls->tail;
                         ls->tail->next = new;
@@ -119,7 +119,7 @@ int append(StudentList *ls, student *s){
                     }
 
                     if(ls->current->next->student->classID > s->classID){
-                        new->student->ID = 1;
+                        new->student->ID =new->student->classID*1000 + 1;
                         new->prv = ls->current;
                         new->next= ls->current->next;
                         ls->current->next->prv = new;
