@@ -3,7 +3,7 @@
 #include "student.h"
 
 typedef struct Node{
-    struct student *student;
+    struct student student;
     struct Node *next;
     struct Node *prv;
 } node;
@@ -16,6 +16,6 @@ typedef struct StudentList{
     int size;
 } StudentList;
 
-int append(StudentList *ls, student *s);
+int append(StudentList *ls, student s);
 
 #endif // LINKEDLIST_H_INCLUDED
