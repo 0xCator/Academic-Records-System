@@ -49,9 +49,9 @@ int append(StudentList *ls, student *s){
 
                     new->student->ID = ls->current->student->ID +1;
                     new->next = NULL;
-                    new->prv = ls->head;
-                    ls->head->next = new;
-                    ls->head = new;
+                    new->prv = ls->tail;
+                    ls->tail->next = new;
+                    ls->tail = new;
                     ls->size ++;
                     return 0; // success code 
                 }
@@ -108,11 +108,11 @@ int append(StudentList *ls, student *s){
                     if(ls->current->student->classID == s->classID &&
                             ls->current->next == NULL){
 
-                        new->student->ID = ls->current->student->ID +1;
+                        new->student->ID = 1;
                         new->next = NULL;
-                        new->prv = ls->head;
-                        ls->head->next = new;
-                        ls->head = new;
+                        new->prv = ls->tail;
+                        ls->tail->next = new;
+                        ls->tail = new;
                         ls->size ++;
                         return 0; // success code 
                     }
@@ -138,9 +138,10 @@ int append(StudentList *ls, student *s){
                     // if the class pos at the beggining of the list 
                     if(ls->current->prv == NULL 
                             && ls->current->student->classID > s->classID){
+                        new->student->ID = 1;
                         new->prv = NULL;
-                        new->next = ls->tail;
-                        ls->tail = new;
+                        new->next = ls->head;
+                        ls->head= new;
                         ls->size ++;
                         return 0; // success code 
                     }
