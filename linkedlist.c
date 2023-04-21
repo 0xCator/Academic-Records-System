@@ -22,6 +22,7 @@ int append(StudentList *ls, student *s){
         new->prv = NULL;
         ls->head = new;
         ls->tail = new;
+        ls->current = new;
         ls->size ++;
         
         return 0 ; // success code 
