@@ -16,6 +16,12 @@ typedef struct StudentList{
     int size;
 } StudentList;
 
+void createList(StudentList *ls);
+int listSize(StudentList *ls);
+int listEmpty(StudentList *ls);
 int append(StudentList *ls, student s);
+
+int showStudentsInClass(StudentList *ls, int classID, void (*pf)(student));
+int showStudentsInClassRev(StudentList *ls, int classID, void (*pf)(student));
 
 #endif // LINKEDLIST_H_INCLUDED
