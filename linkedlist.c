@@ -256,6 +256,9 @@ int DeleteFromClass(StudentList *ls, int classID){
             tmp = ls->current;
             ls->current = (ls->current->next != NULL)?
                         ls->current->next : ls->current;
+            ls->head = (tmp->prv == NULL)? ls->head->next: ls->head;
+            ls->tail = (tmp->next == NULL)? ls->tail->prv: ls->tail;
+
             if (tmp->prv != NULL)
                 tmp->prv->next = tmp->next;
 
@@ -560,6 +563,7 @@ int DeletebyIDrew(int stdID, StudentList *psl)
                 return 0;
         }
     }
+    return -1;
 }
 
 int DeletebyNamerew(char name[], StudentList *psl, void (*pf)(student))

@@ -62,6 +62,6 @@ int main()
     strcpy(s.name, "Name6");
     s.classID = 7;
     append(&ls, s);
-
+    DeleteFromClass(&ls,1);
     return 0;
 }
