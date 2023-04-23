@@ -20,6 +20,7 @@ void createList(StudentList *ls);
 int listSize(StudentList *ls);
 int listEmpty(StudentList *ls);
 int append(StudentList *ls, student s);
+int DeleteFromClass(StudentList *ls, int classID);
 
 int showStudentsInClass(StudentList *ls, int classID, void (*pf)(student));
 int showStudentsInClassRev(StudentList *ls, int classID, void (*pf)(student));

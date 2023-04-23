@@ -238,3 +238,84 @@ int showStudentsInClassRev(StudentList *ls, int classID, void (*pf)(student))
     }
     return (classExists);
 }
+
+
+int DeleteFromClass(StudentList *ls, int classID){
+    // delete all student in the class 
+    node *tmp;
+    int classExists= 0;
+    ls->current = (ls->head->student.classID == classID)?
+                    ls->head : (ls->tail->student.classID == classID)?
+                                ls->tail : ls->current ;
+
+    // moving current
+    if(ls->current->student.classID == classID){
+        classExists = 1;
+        while (ls->current != NULL&&
+                ls->current->student.classID == classID) {
+            tmp = ls->current;
+            ls->current = (ls->current->next != NULL)?
+                        ls->current->next : ls->current;
+            if (tmp->prv != NULL) 
+                tmp->prv->next = tmp->next; 
+
+            if (tmp->next != NULL) 
+                tmp->next->prv = tmp->prv;
+            free(tmp);
+            ls->size--;
+            ls->current = (ls->current->prv != NULL&&
+                    ls->current->prv->student.classID == classID)?
+                ls->current->prv : ls->current;
+        }
+        return (classExists);
+    }
+    
+    if(ls->current->student.classID <= classID){
+        for(;ls->current != NULL&&
+                ls->current->student.classID <= classID;){
+            if(classID == ls->current->student.classID)
+            {
+                classExists = 1;
+                tmp = ls->current;
+                ls->current = (ls->current->next == NULL)? ls->current->prv
+                    : ls->current->next;
+                if (tmp->prv != NULL) 
+                    tmp->prv->next = tmp->next; 
+
+                if (tmp->next != NULL) 
+                    tmp->next->prv = tmp->prv;
+                free(tmp);
+                ls->size--;
+                continue;
+            }
+            ls->current = ls->current->next;
+        }
+        return (classExists);
+    }
+
+    if(ls->current->student.classID >= classID){
+        for(;ls->current != NULL &&
+                ls->current->student.classID >= classID;){
+            if(classID == ls->current->student.classID)
+            {
+                classExists = 1;
+                tmp = ls->current;
+                tmp = ls->current;
+                ls->current = (ls->current->prv == NULL)? ls->current->next
+                    : ls->current->prv;
+                if (tmp->prv != NULL) 
+                    tmp->prv->next = tmp->next; 
+
+                if (tmp->next != NULL) 
+                    tmp->next->prv = tmp->prv;
+                free(tmp);
+                ls->size--;
+                continue;
+            }
+            ls->current = ls->current->prv;
+        }
+        return (classExists);
+    }
+
+ return (classExists);
+}
