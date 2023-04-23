@@ -7,4 +7,6 @@ typedef struct student {
     char  name[100];
 }student;
 
+void printStudent(student s);
+
 #endif // STUDENT_H_INCLUDED

@@ -9,8 +9,8 @@ void readName(char *name){
     do{
         fgets(str,100,stdin);
         if(str[0] == '\n')  continue;
-        
-        //remove leading 
+
+        //remove leading
         int i =0;
         while (str[i] == ' '|| str[i] == '\t'|| str[i] == '\n'){
             i++;
@@ -25,7 +25,7 @@ void readName(char *name){
         }
         name[strlen(name) -1] = '\0';
 
-        // manage letter case 
+        // manage letter case
         for(i = 0; i<strlen(name); i++) {
             if (i == 0 && name[i] != ' ' || name[i] != ' ' && name[i-1] == ' ') {
                 if(name[i] >= 'a' && name[i]<='z') {
@@ -35,15 +35,33 @@ void readName(char *name){
                 name[i] = (char)(name[i] + ('a' - 'A'));
             }
         }
-        
+
     }while(str[0] == '\n');
 }
 
 int main()
 {
-    // quick test 
-    char name[100];
-    readName(name);
-    printf("%s", name);
+    StudentList ls;
+    student s;
+    createList(&ls);
+    strcpy(s.name, "Name1");
+    s.classID = 1;
+    append(&ls, s);
+    strcpy(s.name, "Name6");
+    s.classID = 1;
+    append(&ls, s);
+    strcpy(s.name, "Name3");
+    s.classID = 1;
+    append(&ls, s);
+    strcpy(s.name, "Name6");
+    s.classID = 3;
+    append(&ls, s);
+    strcpy(s.name, "Name5");
+    s.classID = 2;
+    append(&ls, s);
+    strcpy(s.name, "Name6");
+    s.classID = 7;
+    append(&ls, s);
+
     return 0;
 }
