@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include "linkedlist.h"
 #include "student.h"
 #include <stdlib.h>
@@ -653,6 +654,7 @@ int SearchByID(int stdID, StudentList *psl, void (*pf)(student))
                 return 0;
         }
     }
+    return  -1;
 }
 
 int SearchByName(char name[], StudentList *psl, void (*pf)(student))
