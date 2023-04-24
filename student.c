@@ -1,4 +1,5 @@
 #include "student.h"
+#include <stdio.h>
 #include "linkedlist.h"
 #include <stdlib.h>
 

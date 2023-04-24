@@ -309,7 +309,7 @@ void EditStudentClass(StudentList *sl, int idToFind, int newClass)
                         clonedStudent->student.ID = sl->current->prv->student.ID +1;
                         break;
                     }
-                    if(sl->current->next > newClass)
+                    if(sl->current->next->student.classID > newClass)
                     {
                         clonedStudent->prv=sl->current;
                         clonedStudent->next=sl->current->next;
@@ -324,7 +324,10 @@ void EditStudentClass(StudentList *sl, int idToFind, int newClass)
             else
             {
                 //last in list
-                clonedStudent->student.ID++;
+                if(sl->tail->student.classID == newClass)
+                    clonedStudent->student.ID = sl->tail->student.ID +1 ;
+                else
+                    clonedStudent->student.ID++;
                 sl->tail->next=clonedStudent;
                 clonedStudent->prv=sl->tail;
                 clonedStudent->next = NULL;

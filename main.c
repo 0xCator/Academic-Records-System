@@ -185,9 +185,9 @@ StudentList ls;
     s.classID = 7;
     append(&ls, s);
     //EditStudentName(&ls, 1002, "Name2");
-    if(idExists(&ls,3001))
+    if(idExists(&ls,2001))
     {
-        EditStudentClass(&ls,3001,1);
+        EditStudentClass(&ls,2001,1);
     }
 
     TraverseList(&ls, printStudent);

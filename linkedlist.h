@@ -33,5 +33,5 @@ int showStudentsInClass(StudentList *ls, int classID, void (*pf)(student));
 int showStudentsInClassRev(StudentList *ls, int classID, void (*pf)(student));
 int SearchByID(int stdID, StudentList *psl, void (*pf)(student));
 int SearchByName(char name[], StudentList *psl, void (*pf)(student));
-
+void TraverseList(StudentList *ls, void (*pf)(student));
 #endif // LINKEDLIST_H_INCLUDED
