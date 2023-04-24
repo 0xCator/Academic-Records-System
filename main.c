@@ -1,5 +1,6 @@
+#include <conio.h>
+#include <ctype.h>
 #include <stdio.h>
-#include<conio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "linkedlist.h"
@@ -7,10 +8,17 @@
 
 void readName(char *name){
     char str[100];
+    int c =0;
     do{
+        c= 0;
         fgets(str,100,stdin);
         if(str[0] == '\n')  continue;
 
+        for(int j =0 ; str[j]; j++){
+            if(isspace(str[j]))
+                c++;
+        }
+        if(c == strlen(str)) continue;
         //remove leading
         int i =0;
         while (str[i] == ' '|| str[i] == '\t'|| str[i] == '\n'){
@@ -37,7 +45,7 @@ void readName(char *name){
             }
         }
 
-    }while(str[0] == '\n');
+    }while(str[0] == '\n' || c == strlen(str));
 }
 
 void readClass(int *classNum)
@@ -107,6 +115,13 @@ int main()
 {
     StudentList ls;
     student s;
+    char name[100];
+
+    readName(name);
+
+    puts(name);
+    return 0;
+
     while(1)
     {
         system("cls");
