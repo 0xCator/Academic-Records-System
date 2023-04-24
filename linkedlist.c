@@ -194,6 +194,168 @@ CNO:
     return -1; // append failed
 }
 
+int idExists(StudentList *sl, int ID)
+{
+    sl->current=sl->head;
+    while(sl->current)
+    {
+        if(sl->current->student.ID == ID)
+            return 1;
+        if(sl->current->next != NULL)
+            sl->current=sl->current->next;
+        else
+            return 0;
+    }
+    return 0;
+}
+void EditStudentName(StudentList *sl, int idToFind,char newName[])
+{
+    int dir = (sl->current->student.ID > idToFind) ? 1 : 0; //Decide to go forwards or backwards
+    while(sl->current)
+    {
+        if(sl->current->student.ID == idToFind)
+        {
+            strcpy(sl->current->student.name,newName);
+            return;
+        }
+        if(dir)
+        {
+            sl->current=sl->current->prv;
+        }
+        else
+            sl->current=sl->current->next;
+    }
+}
+
+void EditStudentClass(StudentList *sl, int idToFind, int newClass)
+{
+    // ignores in case it's the same class
+    if(sl->current->student.classID == newClass)
+        return;
+    // updates in case there is only 1 node
+    if(sl->size==1)
+    {
+        sl->current->student.classID = newClass;
+        sl->current->student.ID = (newClass*1000)+1;
+        return;
+    }
+    node *temp = sl->current;
+    node *clonedStudent = (node *)malloc(sizeof(node));
+    strcpy(clonedStudent->student.name,sl->current->student.name);
+    clonedStudent->student.classID = newClass;
+    clonedStudent->student.ID = newClass * 1000;
+    int dir = (sl->current->student.ID > clonedStudent->student.ID) ? 1 : 0; //Decide to go forwards or backwards
+                            // 3001      1001
+    while(sl->current)
+    {
+        if(dir)
+        {
+            // prev
+            if(sl->current->prv != NULL)
+            {
+                if(sl->current->prv->student.classID < newClass)
+                {
+                    clonedStudent->next=sl->current;
+                    clonedStudent->prv=sl->current->prv;
+                    sl->current->prv->next=clonedStudent;
+                    sl->current->prv=clonedStudent;
+                    sl->current=clonedStudent;
+                    clonedStudent->student.ID++;
+                    break;
+
+                }
+                else if(sl->current->prv->student.classID == newClass)
+                {
+                    clonedStudent->next=sl->current;
+                    clonedStudent->prv=sl->current->prv;
+                    sl->current->prv->next=clonedStudent;
+                    sl->current->prv=clonedStudent;
+                    sl->current=clonedStudent;
+                    clonedStudent->student.ID=clonedStudent->prv->student.ID +1;
+                    break;
+                }
+                sl->current=sl->current->prv;
+
+            }
+            else
+            {
+                //first in list
+                clonedStudent->student.ID++;
+                sl->head->prv=clonedStudent;
+                clonedStudent->next=sl->head;
+                clonedStudent->prv = NULL;
+                sl->head=clonedStudent;
+                sl->current=clonedStudent;
+                break;
+            }
+
+
+            //
+        }
+        else
+        {
+            //next
+            if(sl->current->next != NULL)
+
+                {
+                    if(sl->current->next->student.classID > newClass
+                       && sl->current->student.classID == newClass)
+                    {
+                        clonedStudent->prv=sl->current;
+                        clonedStudent->next=sl->current->next;
+                        sl->current->next->prv=clonedStudent;
+                        sl->current->next=clonedStudent;
+                        sl->current=clonedStudent;
+                        clonedStudent->student.ID = sl->current->prv->student.ID +1;
+                        break;
+                    }
+                    if(sl->current->next > newClass)
+                    {
+                        clonedStudent->prv=sl->current;
+                        clonedStudent->next=sl->current->next;
+                        sl->current->next->prv=clonedStudent;
+                        sl->current->next=clonedStudent;
+                        sl->current=clonedStudent;
+                        clonedStudent->student.ID++;
+                        break;
+                    }
+                    sl->current=sl->current->next;
+                }
+            else
+            {
+                //last in list
+                clonedStudent->student.ID++;
+                sl->tail->next=clonedStudent;
+                clonedStudent->prv=sl->tail;
+                clonedStudent->next = NULL;
+                sl->tail=clonedStudent;
+                sl->current=clonedStudent;
+                break;
+            }
+        }
+
+
+    }
+
+    if(temp == sl->head)
+        {
+            sl->head=sl->head->next;
+            sl->head->prv = NULL;
+        }
+    else if(temp == sl->tail)
+        {
+            sl->tail=sl->tail->prv;
+            sl->tail->next = NULL;
+        }
+    else
+        {
+            temp->prv->next = temp->next;
+            temp->next->prv = temp->prv;
+        }
+
+    free(temp);
+}
+
 int showStudentsInClass(StudentList *ls, int classID, void (*pf)(student))
 {
     int classExists = 0; //A flag in case a class didn't exist

@@ -26,7 +26,9 @@ int DeletebyName(char name[],student *ps,StudentList *psl);
 
 int DeletebyIDrew(int stdID, StudentList *psl);
 int DeletebyNamerew(char name[], StudentList *psl, void (*pf)(student));
-
+int idExists(StudentList *sl, int ID);
+void EditStudentName(StudentList *sl, int idToFind,char newName[]);
+void EditStudentClass(StudentList *sl, int idToFind, int newClass);
 int showStudentsInClass(StudentList *ls, int classID, void (*pf)(student));
 int showStudentsInClassRev(StudentList *ls, int classID, void (*pf)(student));
 int SearchByID(int stdID, StudentList *psl, void (*pf)(student));

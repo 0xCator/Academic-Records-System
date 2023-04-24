@@ -113,53 +113,84 @@ void delayMessage(char msg[])
 
 int main()
 {
-    StudentList ls;
+//    StudentList ls;
+//    student s;
+//    char name[100];
+//
+//    readName(name);
+//
+//    puts(name);
+//    return 0;
+//
+//    while(1)
+//    {
+//        system("cls");
+//        printf("\tStudent Academic Records System\n");
+//        printf("1- Add Student\n");
+//        printf("2- Delete Student (by ID or Name)\n");
+//        printf("3- Edit Student\n");
+//        printf("4- Search Student (by ID or Name)\n");
+//        printf("5- Show all Students in a class (Sequentially or in Reverse)\n");
+//        printf("6- Delete all Students in a class\n");
+//        printf("7- Exit\n\n");
+//        printf("Enter your selection: ");
+//        switch(validMenuChoice(7))
+//        {
+//            case 1:
+//
+//            break;
+//            case 2:
+//
+//            break;
+//            case 3:
+//
+//            break;
+//            case 4:
+//
+//            break;
+//            case 5:
+//
+//            break;
+//            case 6:
+//
+//            break;
+//            case 7:
+//                return 0;
+//            break;
+//            default:
+//            delayMessage("Error: enter a valid input");
+//        }
+//    }
+//    return 0;
+
+StudentList ls;
     student s;
-    char name[100];
-
-    readName(name);
-
-    puts(name);
-    return 0;
-
-    while(1)
+    createList(&ls);
+    strcpy(s.name, "Name1");
+    s.classID = 2;
+    append(&ls, s);
+    strcpy(s.name, "Name2");
+    s.classID = 2;
+    append(&ls, s);
+    strcpy(s.name, "Name3");
+    s.classID = 2;
+    append(&ls, s);
+    strcpy(s.name, "Mazin");
+    s.classID = 3;
+    append(&ls, s);
+    strcpy(s.name, "Name5");
+    s.classID = 2;
+    append(&ls, s);
+    strcpy(s.name, "Name6");
+    s.classID = 7;
+    append(&ls, s);
+    //EditStudentName(&ls, 1002, "Name2");
+    if(idExists(&ls,3001))
     {
-        system("cls");
-        printf("\tStudent Academic Records System\n");
-        printf("1- Add Student\n");
-        printf("2- Delete Student (by ID or Name)\n");
-        printf("3- Edit Student\n");
-        printf("4- Search Student (by ID or Name)\n");
-        printf("5- Show all Students in a class (Sequentially or in Reverse)\n");
-        printf("6- Delete all Students in a class\n");
-        printf("7- Exit\n\n");
-        printf("Enter your selection: ");
-        switch(validMenuChoice(7))
-        {
-            case 1:
-
-            break;
-            case 2:
-
-            break;
-            case 3:
-
-            break;
-            case 4:
-
-            break;
-            case 5:
-
-            break;
-            case 6:
-
-            break;
-            case 7:
-                return 0;
-            break;
-            default:
-            delayMessage("Error: enter a valid input");
-        }
+        EditStudentClass(&ls,3001,1);
     }
+
+    TraverseList(&ls, printStudent);
+
     return 0;
 }
