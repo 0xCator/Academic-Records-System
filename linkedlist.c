@@ -489,181 +489,6 @@ int DeleteFromClass(StudentList *ls, int classID){
  return (classExists);
 }
 
-int DeletebyID(int class, int StuID,student *ps,StudentList *psl){
-
-    if(class==psl->head->student.classID&&StuID==psl->head->student.ID){
-        strcpy(ps->name, psl->head->student.name);
-        ps->ID=psl->head->student.ID;
-        ps->classID=psl->head->student.classID;
-        node *tmp=psl->head;
-        psl->head=tmp;
-        free(tmp);
-        psl->size--;
-        return 1;
-    }
-
-    else if(class==psl->tail->student.classID&&StuID==psl->tail->student.ID){
-        strcpy(ps->name, psl->tail->student.name);
-        ps->ID=psl->tail->student.ID;
-        ps->classID=psl->tail->student.classID;
-        node *tmp=psl->tail;
-        psl->tail=psl->tail->prv;
-        psl->tail->next=tmp->next;
-        free(tmp);
-        psl->size--;
-        return 1;
-    }
-
-    else if(class==psl->current->student.classID){
-        if(StuID==psl->current->student.ID){
-            strcpy(ps->name, psl->current->student.name);
-            ps->ID=psl->current->student.ID;
-            ps->classID=psl->current->student.classID;
-            node *tmp=psl->current->next;
-            psl->current=psl->current->prv;
-            psl->current->next=tmp;
-            free(tmp->prv);
-            tmp->prv=psl->current;
-        }
-        else if(StuID < psl->current->student.ID){
-            while(StuID!=psl->current->student.ID)
-                psl->current=psl->current->prv;
-            strcpy(ps->name, psl->current->student.name);
-            ps->ID=psl->current->student.ID;
-            ps->classID=psl->current->student.classID;
-            node *tmp=psl->current->next;
-            psl->current=psl->current->prv;
-            psl->current->next=tmp;
-            free(tmp->prv);
-            tmp->prv=psl->current;
-        }
-        else if(StuID > psl->current->student.ID){
-            while(StuID!=psl->current->student.ID)
-                psl->current=psl->current->next;
-            strcpy(ps->name, psl->current->student.name);
-            ps->ID=psl->current->student.ID;
-            ps->classID=psl->current->student.classID;
-            node *tmp=psl->current->next;
-            psl->current=psl->current->prv;
-            psl->current->next=tmp;
-            free(tmp->prv);
-            tmp->prv=psl->current;
-        }
-        psl->size--;
-        return 1;
-    }
-
-
-
-    else if(class < psl->current->student.classID){
-
-        while(class!=psl->current->prv->student.classID)
-            psl->current=psl->current->prv;
-        while(StuID!=psl->current->student.ID)
-            psl->current=psl->current->prv;
-        strcpy(ps->name, psl->current->student.name);
-        ps->ID=psl->current->student.ID;
-        ps->classID=psl->current->student.classID;
-        node *tmp=psl->current->next;
-        psl->current=psl->current->prv;
-        psl->current->next=tmp;
-        free(tmp->prv);
-        tmp->prv=psl->current;
-        psl->size--;
-        return 1;
-    }
-    else if(class>psl->current->student.classID){
-
-        while(class!=psl->current->next->student.classID)
-            psl->current=psl->current->next;
-        while(StuID!=psl->current->student.ID)
-            psl->current=psl->current->next;
-        strcpy(ps->name, psl->current->student.name);
-        ps->ID=psl->current->student.ID;
-        ps->classID=psl->current->student.classID;
-        node *tmp=psl->current->next;
-        psl->current=psl->current->prv;
-        psl->current->next=tmp;
-        free(tmp->prv);
-        tmp->prv=psl->current;
-        psl->size--;
-        return 1;
-    }
-    else return 0;
-
-    // return 1 the delete has been done
-    // return 0 means that this student not found
-}
-
-int DeletebyName(char name[],student *ps,StudentList *psl){
-    int stuWthSameName=0;
-    node *pn = psl->head,*ptemp= psl->head;
-    // to know if the number of students with the same name in the entire list
-    while(pn){
-        if(strcmp(name,pn->student.name)==0){
-            stuWthSameName++;
-            psl->current=pn;
-        }
-        pn=pn->next;
-    }
-    //1->there is only 1 student with this name
-    if(stuWthSameName == 1 ){
-
-        if(psl->current==psl->head){
-            strcpy(ps->name, psl->current->student.name);
-            ps->ID=psl->current->student.ID;
-            ps->classID=psl->current->student.classID;
-            node *tmp=psl->head;
-            psl->head=tmp;
-            free(tmp);
-            psl->size--;
-            return 1;
-        }
-        else if(psl->current==psl->tail) {
-            strcpy(ps->name, psl->current->student.name);
-            ps->ID=psl->current->student.ID;
-            ps->classID=psl->current->student.classID;
-            node *tmp=psl->tail;
-            psl->tail=psl->tail->prv;
-            psl->tail->next=tmp->next;
-            free(tmp);
-            psl->size--;
-            return 1;
-        }
-        else{
-            strcpy(ps->name, psl->current->student.name);
-            ps->ID=psl->current->student.ID;
-            ps->classID=psl->current->student.classID;
-            node *tmp=psl->current->next;
-            psl->current=psl->current->prv;
-            psl->current->next=tmp;
-            free(tmp->prv);
-            tmp->prv=psl->current;
-            psl->size--;
-            return 1;
-        }
-    }
-
-
-    //>10> there is more than 1 student with the same name and weneed the id to delete specific student
-    if(stuWthSameName>1){
-        int id;
-        while(ptemp){
-            if(strcmp(name,ptemp->student.name)==0){
-                printf("Student ID\tStudent Name \t \n %d\t\t%s\n",ptemp->student.ID,ptemp->student.name);
-            }
-            ptemp=ptemp->next;
-        }
-        printf("Enter the studentID that will be deleted: ");
-        scanf("%d",&id);
-        int ClassId= id/1000;
-        DeletebyID(ClassId,id,ps,psl);
-        return 1;
-    }
-
-    return 0;
-}
-
 void TraverseList(StudentList *ls, void (*pf)(student))
 {
     node *pn = ls->head;
@@ -674,7 +499,7 @@ void TraverseList(StudentList *ls, void (*pf)(student))
     }
 }
 
-int DeletebyIDrew(int stdID, StudentList *psl)
+int DeletebyID(int stdID, StudentList *psl)
 {
     int dir = (psl->current->student.ID > stdID) ? 1 : 0; //Decide to go forwards or backwards
     while (psl->current)
@@ -732,7 +557,7 @@ int DeletebyIDrew(int stdID, StudentList *psl)
     return -1;
 }
 
-int DeletebyNamerew(char name[], StudentList *psl, void (*pf)(student))
+int DeletebyName(char name[], StudentList *psl, void (*pf)(student))
 {
     int stuWthSameName=0;
     node *pn = psl->head,*ptemp= psl->head;

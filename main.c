@@ -87,6 +87,7 @@ int readID(int *ID)
 
 int validMenuChoice(int maxChoice)
 {
+    fflush(stdin);
     char c;
     while (1)
     {
@@ -111,86 +112,258 @@ void delayMessage(char msg[])
     fflush(stdin);
 }
 
+void DeleteStudentMenu(StudentList *ls)
+{
+    unsigned int ID;
+    char name[100];
+    while(1)
+    {
+        system("cls");
+        printf("\tDelete Student\n");
+        printf("1- Delete by name\n");
+        printf("2- Delete by ID\n");
+        printf("3- Back\n");
+        switch(validMenuChoice(3))
+        {
+            case 1:
+                system("cls");
+                printf("\tDelete Student by name\n");
+                printf("Name: ");
+                readName(name);
+                int flag = DeletebyName(name, ls, printStudent);
+                if (flag == 0)
+                    delayMessage("Student successfully deleted!");
+                else if (flag == 1)
+                {
+                    if (!readID(&ID))
+                    {
+                        delayMessage("Error: Enter valid ID");
+                        continue;
+                    }
+                    if (DeletebyID(ID, ls))
+                        delayMessage("Student successfully deleted!");
+                    else
+                        delayMessage("Error: No student with this ID exists");
+                }
+                else
+                    delayMessage("Error: No student with this name exists");
+            break;
+            case 2:
+                while(1)
+                {
+                    system("cls");
+                    printf("\tDelete Student by ID\n");
+                    printf("ID: ");
+                    if (!readID(&ID))
+                    {
+                        delayMessage("Error: Enter valid ID");
+                        continue;
+                    }
+                    if (DeletebyID(ID, ls))
+                        delayMessage("Student successfully deleted!");
+                    else
+                        delayMessage("Error: No student with this ID exists");
+                    break;
+                }
+            break;
+            case 3:
+                return;
+            break;
+            default:
+                delayMessage("Error: enter a valid input");
+        }
+    }
+}
+
+EditStudentMenu(StudentList *ls)
+{
+    unsigned int ID, classID;
+    char name[100];
+}
+
+void SearchStudentMenu(StudentList *ls)
+{
+    unsigned int ID;
+    char name[100];
+    while(1)
+    {
+        system("cls");
+        printf("\tSearch Student\n");
+        printf("1- Search by name\n");
+        printf("2- Search by ID\n");
+        printf("3- Back\n");
+        switch(validMenuChoice(3))
+        {
+            case 1:
+                system("cls");
+                printf("\tSearch Student(s) by name\n");
+                printf("Name: ");
+                readName(name);
+                if (SearchByName(name, ls, printStudent))
+                    delayMessage("Press any key to return");
+                else
+                    delayMessage("Error: No student with this name exists");
+            break;
+            case 2:
+                while(1)
+                {
+                    system("cls");
+                    printf("\tSearch Student by ID\n");
+                    printf("ID: ");
+                    if (!readID(&ID))
+                    {
+                        delayMessage("Error: Enter valid ID");
+                        continue;
+                    }
+                    if (SearchByID(ID, ls, printStudent))
+                        delayMessage("Press any key to return");
+                    else
+                        delayMessage("Error: No student with this ID exists");
+                    break;
+                }
+            break;
+            case 3:
+                return;
+            break;
+            default:
+                delayMessage("Error: enter a valid input");
+        }
+    }
+}
+
+void ShowStudentsMenu(StudentList *ls)
+{
+    unsigned int classID;
+    while(1)
+    {
+        system("cls");
+        printf("\tShow all Students in a class\n");
+        printf("1- Show sequentially\n");
+        printf("2- Show in reverse order\n");
+        printf("3- Back\n");
+        switch(validMenuChoice(3))
+        {
+            case 1:
+                system("cls");
+                printf("\tShow all Students in a class (Sequentially)\n");
+                printf("Class: ");
+                readClass(&classID);
+                if (showStudentsInClass(ls, classID, printStudent))
+                    delayMessage("Press any key to return");
+                else
+                    delayMessage("Error: Class doesn't exist");
+            break;
+            case 2:
+                system("cls");
+                printf("\tShow all Students in a class (Reversed)\n");
+                printf("Class: ");
+                readClass(&classID);
+                if (showStudentsInClassRev(ls, classID, printStudent))
+                    delayMessage("Press any key to return");
+                else
+                    delayMessage("Error: Class doesn't exist");
+            break;
+            case 3:
+                return;
+            break;
+            default:
+                delayMessage("Error: enter a valid input");
+        }
+    }
+}
+
 int main()
 {
-//    StudentList ls;
-//    student s;
-//    char name[100];
-//
-//    readName(name);
-//
-//    puts(name);
-//    return 0;
-//
-//    while(1)
-//    {
-//        system("cls");
-//        printf("\tStudent Academic Records System\n");
-//        printf("1- Add Student\n");
-//        printf("2- Delete Student (by ID or Name)\n");
-//        printf("3- Edit Student\n");
-//        printf("4- Search Student (by ID or Name)\n");
-//        printf("5- Show all Students in a class (Sequentially or in Reverse)\n");
-//        printf("6- Delete all Students in a class\n");
-//        printf("7- Exit\n\n");
-//        printf("Enter your selection: ");
-//        switch(validMenuChoice(7))
-//        {
-//            case 1:
-//
-//            break;
-//            case 2:
-//
-//            break;
-//            case 3:
-//
-//            break;
-//            case 4:
-//
-//            break;
-//            case 5:
-//
-//            break;
-//            case 6:
-//
-//            break;
-//            case 7:
-//                return 0;
-//            break;
-//            default:
-//            delayMessage("Error: enter a valid input");
-//        }
-//    }
-//    return 0;
-
-StudentList ls;
+    StudentList ls;
     student s;
     createList(&ls);
-    strcpy(s.name, "Name1");
-    s.classID = 2;
-    append(&ls, s);
-    strcpy(s.name, "Name2");
-    s.classID = 2;
-    append(&ls, s);
-    strcpy(s.name, "Name3");
-    s.classID = 2;
-    append(&ls, s);
-    strcpy(s.name, "Mazin");
-    s.classID = 3;
-    append(&ls, s);
-    strcpy(s.name, "Name5");
-    s.classID = 2;
-    append(&ls, s);
-    strcpy(s.name, "Name6");
-    s.classID = 7;
-    append(&ls, s);
-    //EditStudentName(&ls, 1002, "Name2");
-    if(idExists(&ls,2001))
+    char name[100];
+    unsigned int classID, ID, flag;
+    while(1)
     {
-        EditStudentClass(&ls,2001,1);
+        system("cls");
+        printf("\tStudent Academic Records System\n");
+        printf("1- Add Student\n");
+        printf("2- Delete Student (by ID or Name)\n");
+        printf("3- Edit Student\n");
+        printf("4- Search Student (by ID or Name)\n");
+        printf("5- Show all Students in a class (Sequentially or in Reverse)\n");
+        printf("6- Delete all Students in a class\n");
+        printf("7- Exit\n\n");
+        printf("Enter your selection: ");
+        switch(validMenuChoice(7))
+        {
+            case 1: //Add student
+                system("cls");
+                printf("\tAdd Student\n");
+                printf("Name: ");
+                readName(name);
+                printf("Class: ");
+                readClass(&classID);
+                strcpy(s.name,name);
+                s.classID=classID;
+                if (append(&ls,s) == 0)
+                    delayMessage("Student successfully added!");
+                else
+                    delayMessage("Error: An error occurred");
+            break;
+            case 2: //Delete Student
+                if (listEmpty(&ls))
+                {
+                    delayMessage("Error: List is empty");
+                    break;
+                }
+                DeleteStudentMenu(&ls);
+            break;
+            case 3: //Edit Student
+                if (listEmpty(&ls))
+                {
+                    delayMessage("Error: List is empty");
+                    break;
+                }
+                EditStudentMenu(&ls);
+            break;
+            case 4: //Search Student
+                if (listEmpty(&ls))
+                {
+                    delayMessage("Error: List is empty");
+                    break;
+                }
+                SearchStudentMenu(&ls);
+            break;
+            case 5: //Show all Students in a class
+                if (listEmpty(&ls))
+                {
+                    delayMessage("Error: List is empty");
+                    break;
+                }
+                ShowStudentsMenu(&ls);
+            break;
+            case 6: //Delete all Students in a class
+                if (listEmpty(&ls))
+                {
+                    delayMessage("Error: List is empty");
+                    break;
+                }
+                do
+                {
+                    system("cls");
+                    printf("\tDelete class\n");
+                    printf("Class: ");
+                    readClass(&classID);
+                    flag = DeleteFromClass(&ls, classID);
+                    if (flag)
+                        delayMessage("Class successfully deleted!");
+                    else
+                        delayMessage("Error: Class doesn't exist");
+                } while (!flag);
+            break;
+            case 7:
+                exit(0);
+            break;
+            default:
+            delayMessage("Error: enter a valid input");
+        }
     }
-
-    TraverseList(&ls, printStudent);
-
     return 0;
 }

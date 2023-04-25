@@ -21,11 +21,8 @@ int listSize(StudentList *ls);
 int listEmpty(StudentList *ls);
 int append(StudentList *ls, student s);
 int DeleteFromClass(StudentList *ls, int classID);
-int DeletebyID(int Class, int stuID ,student *ps, StudentList *psl);
-int DeletebyName(char name[],student *ps,StudentList *psl);
-
-int DeletebyIDrew(int stdID, StudentList *psl);
-int DeletebyNamerew(char name[], StudentList *psl, void (*pf)(student));
+int DeletebyID(int stdID, StudentList *psl);
+int DeletebyName(char name[], StudentList *psl, void (*pf)(student));
 int idExists(StudentList *sl, int ID);
 void EditStudentName(StudentList *sl, int idToFind,char newName[]);
 void EditStudentClass(StudentList *sl, int idToFind, int newClass);
