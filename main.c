@@ -118,15 +118,16 @@ void DeleteStudentMenu(StudentList *ls)
     char name[100];
     while(1)
     {
-        system("cls");
+        system("cls || clear");
         printf("\tDelete Student\n");
         printf("1- Delete by name\n");
         printf("2- Delete by ID\n");
-        printf("3- Back\n");
+        printf("3- Back\n\n");
+        printf("Enter your selection: ");
         switch(validMenuChoice(3))
         {
             case 1:
-                system("cls");
+                system("cls || clear");
                 printf("\tDelete Student by name\n");
                 printf("Name: ");
                 readName(name);
@@ -151,7 +152,7 @@ void DeleteStudentMenu(StudentList *ls)
             case 2:
                 while(1)
                 {
-                    system("cls");
+                    system("cls || clear");
                     printf("\tDelete Student by ID\n");
                     printf("ID: ");
                     if (!readID(&ID))
@@ -175,10 +176,64 @@ void DeleteStudentMenu(StudentList *ls)
     }
 }
 
-EditStudentMenu(StudentList *ls)
+void EditStudentMenu(StudentList *ls)
 {
     unsigned int ID, classID;
     char name[100];
+    while(1)
+    {
+        system("cls || clear");
+        printf("\tEdit Student\n");
+        printf("ID: ");
+        if (!readID(&ID))
+        {
+            delayMessage("Error: Enter valid ID");
+            continue;
+        }
+        if (idExists(ls, ID))
+        {
+            while (1)
+            {
+                system("cls || clear");
+                printf("\tEdit Student\n");
+                printf("1- Edit name\n");
+                printf("2- Change Class\n");
+                printf("3- Back\n\n");
+                printf("Enter your selection: ");
+                switch(validMenuChoice(3))
+                {
+                    case 1:
+                        system("cls || clear");
+                        printf("\tEdit Student's name\n");
+                        printf("Name: ");
+                        readName(name);
+                        EditStudentName(ls, ID, name);
+                        delayMessage("Name successfully changed!");
+                        return;
+                    break;
+                    case 2:
+                        system("cls || clear");
+                        printf("\tChange Student's class\n");
+                        printf("Class: ");
+                        readClass(&classID);
+                        EditStudentClass(ls, ID, classID);
+                        if (classID == ID/1000)
+                            delayMessage("Same class, nothing was changed");
+                        else
+                            delayMessage("Class successfully changed!");
+                        return;
+                    break;
+                    case 3:
+                        return;
+                    break;
+                    default:
+                        delayMessage("Error: enter a valid input");
+                }
+            }
+        }
+        else
+            delayMessage("Error: No student with this ID exists");
+    }
 }
 
 void SearchStudentMenu(StudentList *ls)
@@ -187,15 +242,16 @@ void SearchStudentMenu(StudentList *ls)
     char name[100];
     while(1)
     {
-        system("cls");
+        system("cls || clear");
         printf("\tSearch Student\n");
         printf("1- Search by name\n");
         printf("2- Search by ID\n");
-        printf("3- Back\n");
+        printf("3- Back\n\n");
+        printf("Enter your selection: ");
         switch(validMenuChoice(3))
         {
             case 1:
-                system("cls");
+                system("cls || clear");
                 printf("\tSearch Student(s) by name\n");
                 printf("Name: ");
                 readName(name);
@@ -207,7 +263,7 @@ void SearchStudentMenu(StudentList *ls)
             case 2:
                 while(1)
                 {
-                    system("cls");
+                    system("cls || clear");
                     printf("\tSearch Student by ID\n");
                     printf("ID: ");
                     if (!readID(&ID))
@@ -236,15 +292,16 @@ void ShowStudentsMenu(StudentList *ls)
     unsigned int classID;
     while(1)
     {
-        system("cls");
+        system("cls || clear");
         printf("\tShow all Students in a class\n");
         printf("1- Show sequentially\n");
         printf("2- Show in reverse order\n");
-        printf("3- Back\n");
+        printf("3- Back\n\n");
+        printf("Enter your selection: ");
         switch(validMenuChoice(3))
         {
             case 1:
-                system("cls");
+                system("cls || clear");
                 printf("\tShow all Students in a class (Sequentially)\n");
                 printf("Class: ");
                 readClass(&classID);
@@ -254,7 +311,7 @@ void ShowStudentsMenu(StudentList *ls)
                     delayMessage("Error: Class doesn't exist");
             break;
             case 2:
-                system("cls");
+                system("cls || clear");
                 printf("\tShow all Students in a class (Reversed)\n");
                 printf("Class: ");
                 readClass(&classID);
@@ -281,7 +338,7 @@ int main()
     unsigned int classID, ID, flag;
     while(1)
     {
-        system("cls");
+        system("cls || clear");
         printf("\tStudent Academic Records System\n");
         printf("1- Add Student\n");
         printf("2- Delete Student (by ID or Name)\n");
@@ -294,7 +351,7 @@ int main()
         switch(validMenuChoice(7))
         {
             case 1: //Add student
-                system("cls");
+                system("cls || clear");
                 printf("\tAdd Student\n");
                 printf("Name: ");
                 readName(name);
@@ -347,7 +404,7 @@ int main()
                 }
                 do
                 {
-                    system("cls");
+                    system("cls || clear");
                     printf("\tDelete class\n");
                     printf("Class: ");
                     readClass(&classID);
