@@ -118,6 +118,7 @@ int append(StudentList *ls, student s){
         if(classState == 0){
 
             // find riaght loaction in the list
+            ls->current = (ls->current == NULL) ? ls->head : ls->current;
 
             if(ls->current->student.classID <= s.classID){
 
