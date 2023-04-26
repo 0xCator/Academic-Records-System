@@ -438,7 +438,7 @@ int DeleteFromClass(StudentList *ls, int classID){
     }
 
     if(ls->current->student.classID <= classID){
-        for(;ls->current != NULL&&
+        for(;ls->current->next != NULL&&
                 ls->current->student.classID <= classID;){
             if(classID == ls->current->student.classID)
             {
@@ -461,7 +461,7 @@ int DeleteFromClass(StudentList *ls, int classID){
     }
 
     if(ls->current->student.classID >= classID){
-        for(;ls->current != NULL &&
+        for(;ls->current->prv != NULL &&
                 ls->current->student.classID >= classID;){
             if(classID == ls->current->student.classID)
             {

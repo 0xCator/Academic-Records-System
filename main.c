@@ -93,7 +93,7 @@ int validMenuChoice(int maxChoice)
     char c;
     while (1)
     {
-        c = getchar();
+        c = getch();
         if (c >= '1' && c <= '9')
         {
             if (c-'0' >= 1 && c-'0' <= maxChoice)
@@ -112,8 +112,9 @@ void delayMessage(char msg[])
     //Adds a delay by asking to click any button before clearing the screen
     //Used to display an error message or a 'click any button to continue'
     printf("%s\n", msg);
-    int c = getch();
+    int c = getchar();
     fflush(stdin);
+
 }
 
 void DeleteStudentMenu(StudentList *ls)
@@ -142,16 +143,16 @@ void DeleteStudentMenu(StudentList *ls)
                 {
                     if (!readID(&ID))
                     {
-                        delayMessage("Error: Enter valid ID");
+                        delayMessage("\nError: Enter valid ID");
                         continue;
                     }
                     if (DeletebyID(ID, ls))
                         delayMessage("Student successfully deleted!");
                     else
-                        delayMessage("Error: No student with this ID exists");
+                        delayMessage("\nError: No student with this ID exists");
                 }
                 else
-                    delayMessage("Error: No student with this name exists");
+                    delayMessage("\nError: No student with this name exists");
             break;
             case 2:
                 while(1)
@@ -161,13 +162,13 @@ void DeleteStudentMenu(StudentList *ls)
                     printf("ID: ");
                     if (!readID(&ID))
                     {
-                        delayMessage("Error: Enter valid ID");
+                        delayMessage("\nError: Enter valid ID");
                         continue;
                     }
                     if (DeletebyID(ID, ls))
                         delayMessage("Student successfully deleted!");
                     else
-                        delayMessage("Error: No student with this ID exists");
+                        delayMessage("\nError: No student with this ID exists");
                     break;
                 }
             break;
@@ -175,7 +176,7 @@ void DeleteStudentMenu(StudentList *ls)
                 return;
             break;
             default:
-                delayMessage("Error: enter a valid input");
+                delayMessage("\nError: enter a valid input");
         }
     }
 }
@@ -191,7 +192,7 @@ void EditStudentMenu(StudentList *ls)
         printf("ID: ");
         if (!readID(&ID))
         {
-            delayMessage("Error: Enter valid ID");
+            delayMessage("\nError: Enter valid ID");
             continue;
         }
         if (idExists(ls, ID))
@@ -231,12 +232,12 @@ void EditStudentMenu(StudentList *ls)
                         return;
                     break;
                     default:
-                        delayMessage("Error: enter a valid input");
+                        delayMessage("\nError: enter a valid input");
                 }
             }
         }
         else
-            delayMessage("Error: No student with this ID exists");
+            delayMessage("\nError: No student with this ID exists");
     }
 }
 
@@ -262,7 +263,7 @@ void SearchStudentMenu(StudentList *ls)
                 if (SearchByName(name, ls, printStudent))
                     delayMessage("Press any key to return");
                 else
-                    delayMessage("Error: No student with this name exists");
+                    delayMessage("\nError: No student with this name exists");
             break;
             case 2:
                 while(1)
@@ -272,13 +273,13 @@ void SearchStudentMenu(StudentList *ls)
                     printf("ID: ");
                     if (!readID(&ID))
                     {
-                        delayMessage("Error: Enter valid ID");
+                        delayMessage("\nError: Enter valid ID");
                         continue;
                     }
                     if (SearchByID(ID, ls, printStudent))
                         delayMessage("Press any key to return");
                     else
-                        delayMessage("Error: No student with this ID exists");
+                        delayMessage("\nError: No student with this ID exists");
                     break;
                 }
             break;
@@ -286,7 +287,7 @@ void SearchStudentMenu(StudentList *ls)
                 return;
             break;
             default:
-                delayMessage("Error: enter a valid input");
+                delayMessage("\nError: enter a valid input");
         }
     }
 }
@@ -312,7 +313,7 @@ void ShowStudentsMenu(StudentList *ls)
                 if (showStudentsInClass(ls, classID, printStudent))
                     delayMessage("Press any key to return");
                 else
-                    delayMessage("Error: Class doesn't exist");
+                    delayMessage("\nError: Class doesn't exist");
             break;
             case 2:
                 system("cls || clear");
@@ -322,13 +323,13 @@ void ShowStudentsMenu(StudentList *ls)
                 if (showStudentsInClassRev(ls, classID, printStudent))
                     delayMessage("Press any key to return");
                 else
-                    delayMessage("Error: Class doesn't exist");
+                    delayMessage("\nError: Class doesn't exist");
             break;
             case 3:
                 return;
             break;
             default:
-                delayMessage("Error: enter a valid input");
+                delayMessage("\nError: enter a valid input");
         }
     }
 }
@@ -367,12 +368,12 @@ int main()
                 if (append(&ls,s) == 0)
                     delayMessage("Student successfully added!");
                 else
-                    delayMessage("Error: An error occurred");
+                    delayMessage("\nError: An error occurred");
             break;
             case 2: //Delete Student
                 if (listEmpty(&ls))
                 {
-                    delayMessage("Error: List is empty");
+                    delayMessage("\nError: List is empty");
                     break;
                 }
                 DeleteStudentMenu(&ls);
@@ -380,7 +381,7 @@ int main()
             case 3: //Edit Student
                 if (listEmpty(&ls))
                 {
-                    delayMessage("Error: List is empty");
+                    delayMessage("\nError: List is empty");
                     break;
                 }
                 EditStudentMenu(&ls);
@@ -388,7 +389,7 @@ int main()
             case 4: //Search Student
                 if (listEmpty(&ls))
                 {
-                    delayMessage("Error: List is empty");
+                    delayMessage("\nError: List is empty");
                     break;
                 }
                 SearchStudentMenu(&ls);
@@ -396,7 +397,7 @@ int main()
             case 5:
                 if (listEmpty(&ls))
                 {
-                    delayMessage("Error: List is empty");
+                    delayMessage("\nError: List is empty");
                     break;
                 }
                 system("cls || clear");
@@ -407,7 +408,7 @@ int main()
             case 6: //Show all Students in a class
                 if (listEmpty(&ls))
                 {
-                    delayMessage("Error: List is empty");
+                    delayMessage("\nError: List is empty");
                     break;
                 }
                 ShowStudentsMenu(&ls);
@@ -415,7 +416,7 @@ int main()
             case 7: //Delete all Students in a class
                 if (listEmpty(&ls))
                 {
-                    delayMessage("Error: List is empty");
+                    delayMessage("\nError: List is empty");
                     break;
                 }
                 do
@@ -428,14 +429,14 @@ int main()
                     if (flag)
                         delayMessage("Class successfully deleted!");
                     else
-                        delayMessage("Error: Class doesn't exist");
+                        delayMessage("\nError: Class doesn't exist");
                 } while (!flag);
             break;
             case 8:
                 exit(0);
             break;
             default:
-            delayMessage("Error: enter a valid input");
+            delayMessage("\nError: enter a valid input");
         }
     }
     return 0;
