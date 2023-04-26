@@ -87,7 +87,6 @@ int append(StudentList *ls, student s){
                     return 0; // success code
                 }
                 classState =0; // class not found
-                goto CNO;
             }
         } else {
 
@@ -112,12 +111,10 @@ int append(StudentList *ls, student s){
                     return 0 ; //success code
                 }
                 classState =0 ; // class not found
-                goto CNO;
             }
         }
 
         // if class not found append at the end of the list
-CNO:
         if(classState == 0){
 
             // find riaght loaction in the list
