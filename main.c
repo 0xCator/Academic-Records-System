@@ -54,7 +54,9 @@ void readClass(int *classNum)
     char c;
     while (1)
     {
-        c = getchar();
+        c =  getche();
+        puts("");
+        fflush(stdin);
         if (c >= '1' && c <= '9')
         {
             *classNum = c - '0';
