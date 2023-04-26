@@ -5,5 +5,5 @@
 
 void printStudent(student s)
 {
-    printf("Name: %s\nID: %d\nClass: %d\n", s.name, s.ID, s.classID);
+    printf("Name: %s\nID: %d\nClass: %d\n\n", s.name, s.ID, s.classID);
 }

@@ -97,7 +97,9 @@ int validMenuChoice(int maxChoice)
         if (c >= '1' && c <= '9')
         {
             if (c-'0' >= 1 && c-'0' <= maxChoice)
+            {
                 return c-'0';
+            }
             else
                 return 0;
         } else return 0;
@@ -346,11 +348,12 @@ int main()
         printf("2- Delete Student (by ID or Name)\n");
         printf("3- Edit Student\n");
         printf("4- Search Student (by ID or Name)\n");
-        printf("5- Show all Students in a class (Sequentially or in Reverse)\n");
-        printf("6- Delete all Students in a class\n");
-        printf("7- Exit\n\n");
+        printf("5- Show all Students in the system\n");
+        printf("6- Show all Students in a class (Sequentially or in Reverse)\n");
+        printf("7- Delete all Students in a class\n");
+        printf("8- Exit\n\n");
         printf("Enter your selection: ");
-        switch(validMenuChoice(7))
+        switch(validMenuChoice(8))
         {
             case 1: //Add student
                 system("cls || clear");
@@ -390,7 +393,18 @@ int main()
                 }
                 SearchStudentMenu(&ls);
             break;
-            case 5: //Show all Students in a class
+            case 5:
+                if (listEmpty(&ls))
+                {
+                    delayMessage("Error: List is empty");
+                    break;
+                }
+                system("cls || clear");
+                printf("\tShow all Students:\n");
+                TraverseList(&ls, printStudent);
+                delayMessage("Press any key to continue");
+            break;
+            case 6: //Show all Students in a class
                 if (listEmpty(&ls))
                 {
                     delayMessage("Error: List is empty");
@@ -398,7 +412,7 @@ int main()
                 }
                 ShowStudentsMenu(&ls);
             break;
-            case 6: //Delete all Students in a class
+            case 7: //Delete all Students in a class
                 if (listEmpty(&ls))
                 {
                     delayMessage("Error: List is empty");
@@ -417,7 +431,7 @@ int main()
                         delayMessage("Error: Class doesn't exist");
                 } while (!flag);
             break;
-            case 7:
+            case 8:
                 exit(0);
             break;
             default:
