@@ -22,174 +22,128 @@ int listEmpty(StudentList *ls)
     return ls->size == 0;
 }
 
-int append(StudentList *ls, student s){
+int append(StudentList *sl, student s){
 
     int classState = 1;
-    node* new = (node *)malloc(sizeof(node));
+    node* new= (node *)malloc(sizeof(node));
     if(new == NULL)
         return -2; // fail to allocate memory
-    // add student data
+                   // add student data
     memcpy(&new->student,&s, sizeof(s));
+    new->student.ID = new->student.classID * 1000;    
     // if list empty add node to end of the list
-    if(ls->head == NULL){
+    if(sl->head == NULL){
         new->student.ID = new->student.classID*1000 + 1;
         new->next = NULL;
         new->prv = NULL;
-        ls->head = new;
-        ls->tail = new;
-        ls->current = new;
-        ls->size ++;
+        sl->head = new;
+        sl->tail = new;
+        sl->current = new;
+        sl->size ++;
 
         return 0 ; // success code
-    }
+    } else {
 
-    // if list not empty  search for student class in the list and
-    // add at the end of the class
+        int dir = (sl->current->student.classID > new->student.classID) ? 1 : 0; //Decide to go forwards or backwards
+        int newClass = new->student.classID;
 
-    if(ls->head !=NULL){
+        while(sl->current)
+        {
+            if(dir)
+            {
+                // prev
+                if(sl->current->prv != NULL)
+                {
+                    if(sl->current->prv->student.classID < newClass)
+                    {
+                        new->next=sl->current;
+                        new->prv=sl->current->prv;
+                        sl->current->prv->next=new;
+                        sl->current->prv=new;
+                        sl->current=new;
+                        new->student.ID++;
+                        break;
 
-        //move current pointer
+                    }
+                    else if(sl->current->prv->student.classID == newClass)
+                    {
+                        new->next=sl->current;
+                        new->prv=sl->current->prv;
+                        sl->current->prv->next=new;
+                        sl->current->prv=new;
+                        sl->current=new;
+                        new->student.ID=new->prv->student.ID +1;
+                        break;
+                    }
+                    sl->current=sl->current->prv;
 
-        // if classID of current student < classID of new student
-        // move forward in the list
+                }
+                else
+                {
+                    //first in list
+                    new->student.ID++;
+                    sl->head->prv=new;
+                    new->next=sl->head;
+                    new->prv = NULL;
+                    sl->head=new;
+                    sl->current=new;
+                    break;
+                }
 
-        if(ls->current->student.classID <= s.classID){
 
-            for (;ls->current != NULL; ls->current = ls->current->next) {
+                //
+            }
+            else
+            {
+                //next
+                if(sl->current->next != NULL)
 
-                // check the pos of the end of the class
-
-                // if the class pos at the end of the list
-                if(ls->current->student.classID == s.classID &&
-                        ls->current->next == NULL){
-
-                    new->student.ID = ls->current->student.ID +1;
+                {
+                    if(sl->current->next->student.classID > newClass
+                            && sl->current->student.classID == newClass)
+                    {
+                        new->prv=sl->current;
+                        new->next=sl->current->next;
+                        sl->current->next->prv=new;
+                        sl->current->next=new;
+                        sl->current=new;
+                        new->student.ID = sl->current->prv->student.ID +1;
+                        break;
+                    }
+                    if(sl->current->next->student.classID > newClass)
+                    {
+                        new->prv=sl->current;
+                        new->next=sl->current->next;
+                        sl->current->next->prv=new;
+                        sl->current->next=new;
+                        sl->current=new;
+                        new->student.ID++;
+                        break;
+                    }
+                    sl->current=sl->current->next;
+                }
+                else
+                {
+                    //last in list
+                    if(sl->tail->student.classID == newClass)
+                        new->student.ID = sl->tail->student.ID +1 ;
+                    else
+                        new->student.ID++;
+                    sl->tail->next=new;
+                    new->prv=sl->tail;
                     new->next = NULL;
-                    new->prv = ls->tail;
-                    ls->tail->next = new;
-                    ls->tail = new;
-                    ls->current = new;
-                    ls->size ++;
-                    return 0; // success code
+                    sl->tail=new;
+                    sl->current=new;
+                    break;
                 }
-
-                // if the class pos between two nods
-                if(ls->current->next != NULL &&
-                        ls->current->next->student.classID > s.classID &&
-                        ls->current->student.classID == s.classID){
-                    new->student.ID = ls->current->student.ID +1;
-                    new->prv = ls->current;
-                    new->next= ls->current->next;
-                    ls->current->next->prv = new;
-                    ls->current->next = new;
-                    ls->current = new;
-                    ls->size++;
-                    return 0; // success code
-                }
-                classState =0; // class not found
             }
-        } else {
 
-            // if classID of current student  > classID of new student
-            // move backword in the list
 
-            for(;ls->current != NULL; ls->current = ls->current->prv){
-
-                //check the pos of the end of the class
-
-                if(ls->current->prv != NULL &&
-                        ls->current->prv->student.classID < ls->current->student.classID &&
-                        ls->current->prv->student.classID == s.classID){
-
-                    new->student.ID = ls->current->prv->student.ID + 1;
-                    new->next = ls->current;
-                    new->prv = ls->current->prv;
-                    ls->current->prv->next = new;
-                    ls->current->prv = new;
-                    ls->current = new;
-                    ls->size++;
-                    return 0 ; //success code
-                }
-                classState =0 ; // class not found
-            }
         }
 
-        // if class not found append at the end of the list
-        if(classState == 0){
-
-            // find riaght loaction in the list
-            ls->current = (ls->current == NULL) ? ls->head : ls->current;
-
-            if(ls->current->student.classID <= s.classID){
-
-                for (;ls->current != NULL; ls->current = ls->current->next) {
-
-                    // check the pos of the end of the class
-
-                    // if the class pos at the end of the list
-                    if(ls->current->student.classID < s.classID &&
-                            ls->current->next == NULL){
-
-                        new->student.ID = new->student.classID*1000 + 1;
-                        new->next = NULL;
-                        new->prv = ls->tail;
-                        ls->tail->next = new;
-                        ls->tail = new;
-                        ls->current = new;
-                        ls->size ++;
-                        return 0; // success code
-                    }
-
-                    if(ls->current->next !=NULL
-                            &&ls->current->next->student.classID > s.classID){
-                        new->student.ID =new->student.classID*1000 + 1;
-                        new->prv = ls->current;
-                        new->next= ls->current->next;
-                        ls->current->next->prv = new;
-                        ls->current->next = new;
-                        ls->current = new;
-                        ls->size++;
-                        return 0; // success code
-                    }
-                }
-            }else {
-                // if classID of current student  > classID of new student
-                // move backword in the list
-
-                for(;ls->current != NULL; ls->current = ls->current->prv){
-
-                    //check the pos of the end of the class
-
-                    // if the class pos at the beggining of the list
-                    if(ls->current->prv == NULL
-                            && ls->current->student.classID > s.classID){
-                        new->student.ID = new->student.classID*1000 + 1;
-                        new->prv = NULL;
-                        new->next = ls->head;
-                        ls->head= new;
-                        ls->current = new;
-                        ls->size ++;
-                        return 0; // success code
-                    }
-
-                    if(ls->current->prv->student.classID < ls->current->student.classID &&
-                            ls->current->prv->student.classID < s.classID){
-
-                        new->student.ID = new->student.classID*1000 + 1;
-                        new->next = ls->current;
-                        new->prv = ls->current->prv;
-                        ls->current->prv->next = new;
-                        ls->current->prv = new;
-                        ls->current = new;
-                        ls->size++;
-                        return 0 ; //success code
-                    }
-                }
-            }
-        }
     }
-
-    return -1; // append failed
+    sl->size ++;
+    return 0  ; // append failed
 }
 
 int idExists(StudentList *sl, int ID)
@@ -243,7 +197,7 @@ void EditStudentClass(StudentList *sl, int idToFind, int newClass)
     clonedStudent->student.classID = newClass;
     clonedStudent->student.ID = newClass * 1000;
     int dir = (sl->current->student.ID > clonedStudent->student.ID) ? 1 : 0; //Decide to go forwards or backwards
-                            // 3001      1001
+                                                                             // 3001      1001
     while(sl->current)
     {
         if(dir)
@@ -295,30 +249,30 @@ void EditStudentClass(StudentList *sl, int idToFind, int newClass)
             //next
             if(sl->current->next != NULL)
 
+            {
+                if(sl->current->next->student.classID > newClass
+                        && sl->current->student.classID == newClass)
                 {
-                    if(sl->current->next->student.classID > newClass
-                       && sl->current->student.classID == newClass)
-                    {
-                        clonedStudent->prv=sl->current;
-                        clonedStudent->next=sl->current->next;
-                        sl->current->next->prv=clonedStudent;
-                        sl->current->next=clonedStudent;
-                        sl->current=clonedStudent;
-                        clonedStudent->student.ID = sl->current->prv->student.ID +1;
-                        break;
-                    }
-                    if(sl->current->next->student.classID > newClass)
-                    {
-                        clonedStudent->prv=sl->current;
-                        clonedStudent->next=sl->current->next;
-                        sl->current->next->prv=clonedStudent;
-                        sl->current->next=clonedStudent;
-                        sl->current=clonedStudent;
-                        clonedStudent->student.ID++;
-                        break;
-                    }
-                    sl->current=sl->current->next;
+                    clonedStudent->prv=sl->current;
+                    clonedStudent->next=sl->current->next;
+                    sl->current->next->prv=clonedStudent;
+                    sl->current->next=clonedStudent;
+                    sl->current=clonedStudent;
+                    clonedStudent->student.ID = sl->current->prv->student.ID +1;
+                    break;
                 }
+                if(sl->current->next->student.classID > newClass)
+                {
+                    clonedStudent->prv=sl->current;
+                    clonedStudent->next=sl->current->next;
+                    sl->current->next->prv=clonedStudent;
+                    sl->current->next=clonedStudent;
+                    sl->current=clonedStudent;
+                    clonedStudent->student.ID++;
+                    break;
+                }
+                sl->current=sl->current->next;
+            }
             else
             {
                 //last in list
@@ -339,20 +293,20 @@ void EditStudentClass(StudentList *sl, int idToFind, int newClass)
     }
 
     if(temp == sl->head)
-        {
-            sl->head=sl->head->next;
-            sl->head->prv = NULL;
-        }
+    {
+        sl->head=sl->head->next;
+        sl->head->prv = NULL;
+    }
     else if(temp == sl->tail)
-        {
-            sl->tail=sl->tail->prv;
-            sl->tail->next = NULL;
-        }
+    {
+        sl->tail=sl->tail->prv;
+        sl->tail->next = NULL;
+    }
     else
-        {
-            temp->prv->next = temp->next;
-            temp->next->prv = temp->prv;
-        }
+    {
+        temp->prv->next = temp->next;
+        temp->next->prv = temp->prv;
+    }
 
     free(temp);
 }
@@ -409,8 +363,8 @@ int DeleteFromClass(StudentList *ls, int classID){
     node *tmp;
     int classExists= 0;
     ls->current = (ls->head->student.classID == classID)?
-                    ls->head : (ls->tail->student.classID == classID)?
-                                ls->tail : ls->current ;
+        ls->head : (ls->tail->student.classID == classID)?
+        ls->tail : ls->current ;
 
     // moving current
     if(ls->current->student.classID == classID){
@@ -419,7 +373,7 @@ int DeleteFromClass(StudentList *ls, int classID){
                 ls->current->student.classID == classID) {
             tmp = ls->current;
             ls->current = (ls->current->next != NULL)?
-                        ls->current->next : ls->current;
+                ls->current->next : ls->current;
             ls->head = (tmp->prv == NULL)? ls->head->next: ls->head;
             ls->tail = (tmp->next == NULL)? ls->tail->prv: ls->tail;
 
@@ -484,7 +438,7 @@ int DeleteFromClass(StudentList *ls, int classID){
         return (classExists);
     }
 
- return (classExists);
+    return (classExists);
 }
 
 void TraverseList(StudentList *ls, void (*pf)(student))

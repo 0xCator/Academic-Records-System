@@ -19,7 +19,7 @@ typedef struct StudentList{
 void createList(StudentList *ls);
 int listSize(StudentList *ls);
 int listEmpty(StudentList *ls);
-int append(StudentList *ls, student s);
+int append(StudentList *sl, student s);
 int DeleteFromClass(StudentList *ls, int classID);
 int DeletebyID(int stdID, StudentList *psl);
 int DeletebyName(char name[], StudentList *psl, void (*pf)(student));
