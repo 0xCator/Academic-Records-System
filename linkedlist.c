@@ -143,7 +143,7 @@ int append(StudentList *sl, student s){
 
     }
     sl->size ++;
-    return 0  ; // append failed
+    return 0  ; 
 }
 
 int idExists(StudentList *sl, int ID)
