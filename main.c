@@ -236,8 +236,10 @@ void EditStudentMenu(StudentList *ls)
                 }
             }
         }
-        else
+        else {
             delayMessage("\nError: No student with this ID exists");
+            return;
+        }
     }
 }
 
@@ -429,7 +431,10 @@ int main()
                     if (flag)
                         delayMessage("Class successfully deleted!");
                     else
+                    {
                         delayMessage("\nError: Class doesn't exist");
+                        break;
+                    }
                 } while (!flag);
             break;
             case 8:
