@@ -6,7 +6,7 @@
 #include "linkedlist.h"
 #include "student.h"
 
-void readName(char *name){
+int readName(char *name){
     char str[100];
     int c =0;
     do{
@@ -15,6 +15,8 @@ void readName(char *name){
         if(str[0] == '\n')  continue;
 
         for(int j =0 ; str[j]; j++){
+            if(str[j] >= '0' && str[j] <= '9')
+                return 1;
             if(isspace(str[j]))
                 c++;
         }
@@ -46,6 +48,7 @@ void readName(char *name){
         }
 
     }while(str[0] == '\n' || c == strlen(str));
+    return 0;
 }
 
 void readClass(int *classNum)
@@ -146,8 +149,10 @@ void DeleteStudentMenu(StudentList *ls)
                         delayMessage("\nError: Enter valid ID");
                         continue;
                     }
-                    if (DeletebyID(ID, ls))
+                    if (DeletebyID(ID, ls)) {
                         delayMessage("Student successfully deleted!");
+                        return;
+                    }
                     else
                         delayMessage("\nError: No student with this ID exists");
                 }
@@ -165,8 +170,10 @@ void DeleteStudentMenu(StudentList *ls)
                         delayMessage("\nError: Enter valid ID");
                         continue;
                     }
-                    if (DeletebyID(ID, ls))
+                    if (DeletebyID(ID, ls)){
                         delayMessage("Student successfully deleted!");
+                        return;
+                    }
                     else
                         delayMessage("\nError: No student with this ID exists");
                     break;
@@ -211,7 +218,10 @@ void EditStudentMenu(StudentList *ls)
                         system("cls || clear");
                         printf("\tEdit Student's name\n");
                         printf("Name: ");
-                        readName(name);
+                        if(readName(name)){
+                            delayMessage("\nError: Enter a valid name");
+                            break;
+                        }
                         EditStudentName(ls, ID, name);
                         delayMessage("Name successfully changed!");
                         return;
@@ -362,7 +372,10 @@ int main()
                 system("cls || clear");
                 printf("\tAdd Student\n");
                 printf("Name: ");
-                readName(name);
+                if(readName(name)){
+                    delayMessage("\nError: Enter a valid name");
+                    break;
+                }
                 printf("Class: ");
                 readClass(&classID);
                 strcpy(s.name,name);

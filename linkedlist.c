@@ -384,9 +384,12 @@ int DeleteFromClass(StudentList *ls, int classID){
                 tmp->next->prv = tmp->prv;
             free(tmp);
             ls->size--;
-            ls->current = (ls->current->prv != NULL&&
-                    ls->current->prv->student.classID == classID)?
-                ls->current->prv : ls->current;
+            ls->current = (ls->size  == 0) ? NULL : ls->current;
+            if(ls->current != NULL
+                    &&ls->current->prv != NULL&&
+                    ls->current->prv->student.classID == classID)
+                ls->current = ls->current->prv; 
+
         }
         return (classExists);
     }
